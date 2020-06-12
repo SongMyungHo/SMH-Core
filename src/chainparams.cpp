@@ -120,8 +120,8 @@ public:
 
         genesis = CreateGenesisBlock(1591617600, 2225544493, 0x1e0ffff0, 1, 9000 * COIN); // 9,000 premine
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x12a765e31ffd4059bada1e25190f6e98c99d9714d334efa41a195a7e7e04bfe2"));
-        assert(genesis.hashMerkleRoot == uint256S("0x97ddfbbae6be97fd6cdf3e7ca13232a3afff2353e29badfab7f73011edd4ced9"));
+        assert(consensus.hashGenesisBlock == uint256S("0xa8b25d177a140f9c809af024e06abca994096af0580a2403e8a21e9e1532d9f4"));
+        assert(genesis.hashMerkleRoot == uint256S("0x2e6e8c2c7f2388a14a7754f7b23dabc521ccdbade249db9f31e9728a965be6d6"));
 
         // Note that of those with the service bits flag, most only support a subset of possible options
         vSeeds.emplace_back("50.18.135.170", true);
