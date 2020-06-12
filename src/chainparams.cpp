@@ -111,11 +111,11 @@ public:
          * The characters are rarely used upper ASCII, not valid as UTF-8, and produce
          * a large 32-bit integer with any alignment.
          */
-        pchMessageStart[0] = 0xfb;
-        pchMessageStart[1] = 0xc0;
-        pchMessageStart[2] = 0xb6;
-        pchMessageStart[3] = 0xdb;
-        nDefaultPort = 9333; // P2P Port
+        pchMessageStart[0] = 0x53; // S
+        pchMessageStart[1] = 0x4d; // M
+        pchMessageStart[2] = 0x48; // H
+        pchMessageStart[3] = 0x6d; // m
+        nDefaultPort = 1212; // P2P Port
         nPruneAfterHeight = 100000;
 
         genesis = CreateGenesisBlock(1317972665, 2084524493, 0x1e0ffff0, 1, 9000 * COIN); // 9,000 premine
@@ -128,10 +128,10 @@ public:
         vSeeds.emplace_back("50.18.101.41", true);
 
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,48);  //
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,5);   //
-        base58Prefixes[SCRIPT_ADDRESS2] = std::vector<unsigned char>(1,50); //
-        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,176); //
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,63);  // S
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,125); // s
+        base58Prefixes[SCRIPT_ADDRESS2] = std::vector<unsigned char>(1,55); // P
+        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,117); // p
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xB2, 0x1E};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x88, 0xAD, 0xE4};
 
