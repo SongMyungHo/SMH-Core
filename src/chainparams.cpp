@@ -48,8 +48,8 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
  */
 static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
-    const char* pszTimestamp = "Capitol 08/Jun/2020 The 4 coins you should have in your portfolio";
-    const CScript genesisOutputScript = CScript() << ParseHex("04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f") << OP_CHECKSIG;
+    const char* pszTimestamp = "NY Times 05/Oct/2011 Steve Jobs, Apple’s Visionary, Dies at 56";
+    const CScript genesisOutputScript = CScript() << ParseHex("040184710fa689ad5023690c80f3a49c8f13f8d45b8c857fbcbc8bc4a8e4d3eb4b10f4d4604fa08dce601aaf0f470216fe1b51850b4acf21b179c45070ac7b03a9") << OP_CHECKSIG;
     return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
 }
 
@@ -76,7 +76,7 @@ public:
         strNetworkID = "main";
         consensus.nSubsidyHalvingInterval = 262800;
         consensus.BIP34Height = 0;
-        consensus.BIP34Hash = uint256S("0x9975413aea80a8f5d1c8ef6ff038999ad6277d8704dfc072b0e36124a71b986a");
+        consensus.BIP34Hash = uint256S("0x12a765e31ffd4059bada1e25190f6e98c99d9714d334efa41a195a7e7e04bfe2");
         consensus.BIP65Height = 0; // bab3041e8977e0dc3eeff63fe707b92bde1dd449d8efafb248c27c8264cc311a
         consensus.BIP66Height = 0; // 7aceee012833fa8952f8835d8b1b3ae233cd6ab08fdb27a771d2bd7bdc491894
         consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
@@ -118,14 +118,14 @@ public:
         nDefaultPort = 1212; // P2P Port
         nPruneAfterHeight = 100000;
 
-        genesis = CreateGenesisBlock(1592245805, 54605, 0x1e0ffff0, 1, 9000 * COIN); // 9,000 premine
+        genesis = CreateGenesisBlock(1317972665, 2084524493, 0x1e0ffff0, 1, 9000 * COIN); // 9,000 premine
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x9975413aea80a8f5d1c8ef6ff038999ad6277d8704dfc072b0e36124a71b986a"));
-        assert(genesis.hashMerkleRoot == uint256S("0x56c44f23063b8c73078821629a315bab8d2ac5f9625e6f04999bfa2706da69f5"));
+        assert(consensus.hashGenesisBlock == uint256S("0x12a765e31ffd4059bada1e25190f6e98c99d9714d334efa41a195a7e7e04bfe2"));
+        assert(genesis.hashMerkleRoot == uint256S("0x97ddfbbae6be97fd6cdf3e7ca13232a3afff2353e29badfab7f73011edd4ced9"));
 
         // Note that of those with the service bits flag, most only support a subset of possible options
-        vSeeds.emplace_back("50.18.135.170");
-        vSeeds.emplace_back("50.18.101.41");
+        vSeeds.emplace_back("50.18.135.170", true);
+        vSeeds.emplace_back("50.18.101.41", true);
 
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,63);  // S
