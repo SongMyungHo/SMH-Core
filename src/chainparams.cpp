@@ -233,7 +233,7 @@ public:
             {
                 {0, uint256S("0x6df7aad82472c7d6ded580ba98899c1d03b4aa2aa4da3567618d550d324ede4a")},
             }
-        };           
+        };
 
         chainTxData = ChainTxData{
             // Data as of block a0afbded94d4be233e191525dc2d467af5c7eab3143c852c3cd549831022aad6 (height 343833)

@@ -33,7 +33,7 @@ Build SongMyungHo Core
 
 1. Clone the songmyungho source code and cd into `songmyungho`
 
-        git clonehttps://github.com/SongMyungHo/SMH-Core
+        git clone https://github.com/SongMyungHo/SMH-Core
         cd songmyungho
 
 2.  Build songmyungho-core:

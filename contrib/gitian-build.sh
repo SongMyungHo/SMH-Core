@@ -31,7 +31,7 @@ commitFiles=true
 read -d '' usage <<- EOF
 Usage: $scriptName [-c|u|v|b|s|B|o|h|j|m|] signer version
 
-Run this script from the directory containing the songmyungho, gitian-builder, gitian.sigs.ltc, and songmyungho-detached-sigs.
+Run this script from the directory containing the songmyungho, gitian-builder, gitian.sigs.smh, and songmyungho-detached-sigs.
 
 Arguments:
 signer          GPG signer to sign each build assert file
@@ -39,7 +39,7 @@ version		Version number, commit, or branch to build. If building a commit or bra
 
 Options:
 -c|--commit	Indicate that the version argument is for a commit or branch
--u|--url	Specify the URL of the repository. Default ishttps://github.com/SongMyungHo/SMH-Core
+-u|--url	Specify the URL of the repository. Default is https://github.com/SongMyungHo/SMH-Core
 -v|--verify 	Verify the gitian build
 -b|--build	Do a gitian build
 -s|--sign	Make signed binaries for Windows and Mac OSX
@@ -232,8 +232,8 @@ echo ${COMMIT}
 if [[ $setup = true ]]
 then
     sudo apt-get install ruby apache2 git apt-cacher-ng python-vm-builder qemu-kvm qemu-utils
-    git clone https://github.com/SongMyungHo/gitian.sigs.ltc.git
-    git clonehttps://github.com/SongMyungHo/SMH-Core-detached-sigs.git
+    git clone https://github.com/SongMyungHo/gitian.sigs.smh.git
+    git clone https://github.com/SongMyungHo/SMH-Core-detached-sigs.git
     git clone https://github.com/devrandom/gitian-builder.git
     pushd ./gitian-builder
     if [[ -n "$USE_LXC" ]]
@@ -257,12 +257,12 @@ if [[ $build = true ]]
 then
 	# Make output folder
 	mkdir -p ./songmyungho-binaries/${VERSION}
-
+	
 	# Build Dependencies
 	echo ""
 	echo "Building Dependencies"
 	echo ""
-	pushd ./gitian-builder
+	pushd ./gitian-builder	
 	mkdir -p inputs
 	wget -N -P inputs $osslPatchUrl
 	wget -N -P inputs $osslTarUrl
@@ -275,7 +275,7 @@ then
 	    echo "Compiling ${VERSION} Linux"
 	    echo ""
 	    ./bin/gbuild -j ${proc} -m ${mem} --commit songmyungho=${COMMIT} --url songmyungho=${url} ../songmyungho/contrib/gitian-descriptors/gitian-linux.yml
-	    ./bin/gsign -p $signProg --signer $SIGNER --release ${VERSION}-linux --destination ../gitian.sigs.ltc/ ../songmyungho/contrib/gitian-descriptors/gitian-linux.yml
+	    ./bin/gsign -p $signProg --signer $SIGNER --release ${VERSION}-linux --destination ../gitian.sigs.smh/ ../songmyungho/contrib/gitian-descriptors/gitian-linux.yml
 	    mv build/out/songmyungho-*.tar.gz build/out/src/songmyungho-*.tar.gz ../songmyungho-binaries/${VERSION}
 	fi
 	# Windows
@@ -285,7 +285,7 @@ then
 	    echo "Compiling ${VERSION} Windows"
 	    echo ""
 	    ./bin/gbuild -j ${proc} -m ${mem} --commit songmyungho=${COMMIT} --url songmyungho=${url} ../songmyungho/contrib/gitian-descriptors/gitian-win.yml
-	    ./bin/gsign -p $signProg --signer $SIGNER --release ${VERSION}-win-unsigned --destination ../gitian.sigs.ltc/ ../songmyungho/contrib/gitian-descriptors/gitian-win.yml
+	    ./bin/gsign -p $signProg --signer $SIGNER --release ${VERSION}-win-unsigned --destination ../gitian.sigs.smh/ ../songmyungho/contrib/gitian-descriptors/gitian-win.yml
 	    mv build/out/songmyungho-*-win-unsigned.tar.gz inputs/songmyungho-win-unsigned.tar.gz
 	    mv build/out/songmyungho-*.zip build/out/songmyungho-*.exe ../songmyungho-binaries/${VERSION}
 	fi
@@ -296,7 +296,7 @@ then
 	    echo "Compiling ${VERSION} Mac OSX"
 	    echo ""
 	    ./bin/gbuild -j ${proc} -m ${mem} --commit songmyungho=${COMMIT} --url songmyungho=${url} ../songmyungho/contrib/gitian-descriptors/gitian-osx.yml
-	    ./bin/gsign -p $signProg --signer $SIGNER --release ${VERSION}-osx-unsigned --destination ../gitian.sigs.ltc/ ../songmyungho/contrib/gitian-descriptors/gitian-osx.yml
+	    ./bin/gsign -p $signProg --signer $SIGNER --release ${VERSION}-osx-unsigned --destination ../gitian.sigs.smh/ ../songmyungho/contrib/gitian-descriptors/gitian-osx.yml
 	    mv build/out/songmyungho-*-osx-unsigned.tar.gz inputs/songmyungho-osx-unsigned.tar.gz
 	    mv build/out/songmyungho-*.tar.gz build/out/songmyungho-*.dmg ../songmyungho-binaries/${VERSION}
 	fi
@@ -325,34 +325,34 @@ then
 	echo ""
 	echo "Verifying v${VERSION} Linux"
 	echo ""
-	./bin/gverify -v -d ../gitian.sigs.ltc/ -r ${VERSION}-linux ../songmyungho/contrib/gitian-descriptors/gitian-linux.yml
+	./bin/gverify -v -d ../gitian.sigs.smh/ -r ${VERSION}-linux ../songmyungho/contrib/gitian-descriptors/gitian-linux.yml
 	# Windows
 	echo ""
 	echo "Verifying v${VERSION} Windows"
 	echo ""
-	./bin/gverify -v -d ../gitian.sigs.ltc/ -r ${VERSION}-win-unsigned ../songmyungho/contrib/gitian-descriptors/gitian-win.yml
-	# Mac OSX
+	./bin/gverify -v -d ../gitian.sigs.smh/ -r ${VERSION}-win-unsigned ../songmyungho/contrib/gitian-descriptors/gitian-win.yml
+	# Mac OSX	
 	echo ""
 	echo "Verifying v${VERSION} Mac OSX"
-	echo ""
-	./bin/gverify -v -d ../gitian.sigs.ltc/ -r ${VERSION}-osx-unsigned ../songmyungho/contrib/gitian-descriptors/gitian-osx.yml
+	echo ""	
+	./bin/gverify -v -d ../gitian.sigs.smh/ -r ${VERSION}-osx-unsigned ../songmyungho/contrib/gitian-descriptors/gitian-osx.yml
 	# Signed Windows
 	echo ""
 	echo "Verifying v${VERSION} Signed Windows"
 	echo ""
-	./bin/gverify -v -d ../gitian.sigs.ltc/ -r ${VERSION}-osx-signed ../songmyungho/contrib/gitian-descriptors/gitian-osx-signer.yml
+	./bin/gverify -v -d ../gitian.sigs.smh/ -r ${VERSION}-osx-signed ../songmyungho/contrib/gitian-descriptors/gitian-osx-signer.yml
 	# Signed Mac OSX
 	echo ""
 	echo "Verifying v${VERSION} Signed Mac OSX"
 	echo ""
-	./bin/gverify -v -d ../gitian.sigs.ltc/ -r ${VERSION}-osx-signed ../songmyungho/contrib/gitian-descriptors/gitian-osx-signer.yml
+	./bin/gverify -v -d ../gitian.sigs.smh/ -r ${VERSION}-osx-signed ../songmyungho/contrib/gitian-descriptors/gitian-osx-signer.yml	
 	popd
 fi
 
 # Sign binaries
 if [[ $sign = true ]]
 then
-
+	
         pushd ./gitian-builder
 	# Sign Windows
 	if [[ $windows = true ]]
@@ -361,7 +361,7 @@ then
 	    echo "Signing ${VERSION} Windows"
 	    echo ""
 	    ./bin/gbuild -i --commit signature=${COMMIT} ../songmyungho/contrib/gitian-descriptors/gitian-win-signer.yml
-	    ./bin/gsign -p $signProg --signer $SIGNER --release ${VERSION}-win-signed --destination ../gitian.sigs.ltc/ ../songmyungho/contrib/gitian-descriptors/gitian-win-signer.yml
+	    ./bin/gsign -p $signProg --signer $SIGNER --release ${VERSION}-win-signed --destination ../gitian.sigs.smh/ ../songmyungho/contrib/gitian-descriptors/gitian-win-signer.yml
 	    mv build/out/songmyungho-*win64-setup.exe ../songmyungho-binaries/${VERSION}
 	    mv build/out/songmyungho-*win32-setup.exe ../songmyungho-binaries/${VERSION}
 	fi
@@ -372,7 +372,7 @@ then
 	    echo "Signing ${VERSION} Mac OSX"
 	    echo ""
 	    ./bin/gbuild -i --commit signature=${COMMIT} ../songmyungho/contrib/gitian-descriptors/gitian-osx-signer.yml
-	    ./bin/gsign -p $signProg --signer $SIGNER --release ${VERSION}-osx-signed --destination ../gitian.sigs.ltc/ ../songmyungho/contrib/gitian-descriptors/gitian-osx-signer.yml
+	    ./bin/gsign -p $signProg --signer $SIGNER --release ${VERSION}-osx-signed --destination ../gitian.sigs.smh/ ../songmyungho/contrib/gitian-descriptors/gitian-osx-signer.yml
 	    mv build/out/songmyungho-osx-signed.dmg ../songmyungho-binaries/${VERSION}/songmyungho-${VERSION}-osx.dmg
 	fi
 	popd

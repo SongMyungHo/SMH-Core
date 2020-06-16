@@ -33,8 +33,8 @@ If you're using the automated script (found in [contrib/gitian-build.sh](/contri
 Check out the source code in the following directory hierarchy.
 
     cd /path/to/your/toplevel/build
-    git clone https://github.com/SongMyungHo/gitian.sigs.ltc.git
-    git clonehttps://github.com/SongMyungHo/SMH-Core-detached-sigs.git
+    git clone https://github.com/SongMyungHo/gitian.sigs.smh.git
+    git clone https://github.com/SongMyungHo/SMH-Core-detached-sigs.git
     git clone https://github.com/devrandom/gitian-builder.git
     git clone https://github.com/SongMyungHo/SMH-Core.git
 
@@ -68,9 +68,9 @@ Setup Gitian descriptors:
     git checkout v${VERSION}
     popd
 
-Ensure your gitian.sigs.ltc are up-to-date if you wish to gverify your builds against other Gitian signatures.
+Ensure your gitian.sigs.smh are up-to-date if you wish to gverify your builds against other Gitian signatures.
 
-    pushd ./gitian.sigs.ltc
+    pushd ./gitian.sigs.smh
     git pull
     popd
 
@@ -112,16 +112,16 @@ The gbuild invocations below <b>DO NOT DO THIS</b> by default.
 
     pushd ./gitian-builder
     ./bin/gbuild --num-make 2 --memory 3000 --commit songmyungho=v${VERSION} ../songmyungho/contrib/gitian-descriptors/gitian-linux.yml
-    ./bin/gsign --signer $SIGNER --release ${VERSION}-linux --destination ../gitian.sigs.ltc/ ../songmyungho/contrib/gitian-descriptors/gitian-linux.yml
+    ./bin/gsign --signer $SIGNER --release ${VERSION}-linux --destination ../gitian.sigs.smh/ ../songmyungho/contrib/gitian-descriptors/gitian-linux.yml
     mv build/out/songmyungho-*.tar.gz build/out/src/songmyungho-*.tar.gz ../
 
     ./bin/gbuild --num-make 2 --memory 3000 --commit songmyungho=v${VERSION} ../songmyungho/contrib/gitian-descriptors/gitian-win.yml
-    ./bin/gsign --signer $SIGNER --release ${VERSION}-win-unsigned --destination ../gitian.sigs.ltc/ ../songmyungho/contrib/gitian-descriptors/gitian-win.yml
+    ./bin/gsign --signer $SIGNER --release ${VERSION}-win-unsigned --destination ../gitian.sigs.smh/ ../songmyungho/contrib/gitian-descriptors/gitian-win.yml
     mv build/out/songmyungho-*-win-unsigned.tar.gz inputs/songmyungho-win-unsigned.tar.gz
     mv build/out/songmyungho-*.zip build/out/songmyungho-*.exe ../
 
     ./bin/gbuild --num-make 2 --memory 3000 --commit songmyungho=v${VERSION} ../songmyungho/contrib/gitian-descriptors/gitian-osx.yml
-    ./bin/gsign --signer $SIGNER --release ${VERSION}-osx-unsigned --destination ../gitian.sigs.ltc/ ../songmyungho/contrib/gitian-descriptors/gitian-osx.yml
+    ./bin/gsign --signer $SIGNER --release ${VERSION}-osx-unsigned --destination ../gitian.sigs.smh/ ../songmyungho/contrib/gitian-descriptors/gitian-osx.yml
     mv build/out/songmyungho-*-osx-unsigned.tar.gz inputs/songmyungho-osx-unsigned.tar.gz
     mv build/out/songmyungho-*.tar.gz build/out/songmyungho-*.dmg ../
     popd
@@ -132,7 +132,7 @@ Build output expected:
   2. linux 32-bit and 64-bit dist tarballs (`songmyungho-${VERSION}-linux[32|64].tar.gz`)
   3. windows 32-bit and 64-bit unsigned installers and dist zips (`songmyungho-${VERSION}-win[32|64]-setup-unsigned.exe`, `songmyungho-${VERSION}-win[32|64].zip`)
   4. OS X unsigned installer and dist tarball (`songmyungho-${VERSION}-osx-unsigned.dmg`, `songmyungho-${VERSION}-osx64.tar.gz`)
-  5. Gitian signatures (in `gitian.sigs.ltc/${VERSION}-<linux|{win,osx}-unsigned>/(your Gitian key)/`)
+  5. Gitian signatures (in `gitian.sigs.smh/${VERSION}-<linux|{win,osx}-unsigned>/(your Gitian key)/`)
 
 ### Verify other gitian builders signatures to your own. (Optional)
 
@@ -144,21 +144,21 @@ Add other gitian builders keys to your gpg keyring, and/or refresh keys.
 Verify the signatures
 
     pushd ./gitian-builder
-    ./bin/gverify -v -d ../gitian.sigs.ltc/ -r ${VERSION}-linux ../songmyungho/contrib/gitian-descriptors/gitian-linux.yml
-    ./bin/gverify -v -d ../gitian.sigs.ltc/ -r ${VERSION}-win-unsigned ../songmyungho/contrib/gitian-descriptors/gitian-win.yml
-    ./bin/gverify -v -d ../gitian.sigs.ltc/ -r ${VERSION}-osx-unsigned ../songmyungho/contrib/gitian-descriptors/gitian-osx.yml
+    ./bin/gverify -v -d ../gitian.sigs.smh/ -r ${VERSION}-linux ../songmyungho/contrib/gitian-descriptors/gitian-linux.yml
+    ./bin/gverify -v -d ../gitian.sigs.smh/ -r ${VERSION}-win-unsigned ../songmyungho/contrib/gitian-descriptors/gitian-win.yml
+    ./bin/gverify -v -d ../gitian.sigs.smh/ -r ${VERSION}-osx-unsigned ../songmyungho/contrib/gitian-descriptors/gitian-osx.yml
     popd
 
 ### Next steps:
 
-Commit your signature to gitian.sigs.ltc:
+Commit your signature to gitian.sigs.smh:
 
-    pushd gitian.sigs.ltc
+    pushd gitian.sigs.smh
     git add ${VERSION}-linux/${SIGNER}
     git add ${VERSION}-win-unsigned/${SIGNER}
     git add ${VERSION}-osx-unsigned/${SIGNER}
     git commit -a
-    git push  # Assuming you can push to the gitian.sigs.ltc tree
+    git push  # Assuming you can push to the gitian.sigs.smh tree
     popd
 
 Codesigner only: Create Windows/OS X detached signatures:
@@ -201,8 +201,8 @@ Create (and optionally verify) the signed OS X binary:
 
     pushd ./gitian-builder
     ./bin/gbuild -i --commit signature=v${VERSION} ../songmyungho/contrib/gitian-descriptors/gitian-osx-signer.yml
-    ./bin/gsign --signer $SIGNER --release ${VERSION}-osx-signed --destination ../gitian.sigs.ltc/ ../songmyungho/contrib/gitian-descriptors/gitian-osx-signer.yml
-    ./bin/gverify -v -d ../gitian.sigs.ltc/ -r ${VERSION}-osx-signed ../songmyungho/contrib/gitian-descriptors/gitian-osx-signer.yml
+    ./bin/gsign --signer $SIGNER --release ${VERSION}-osx-signed --destination ../gitian.sigs.smh/ ../songmyungho/contrib/gitian-descriptors/gitian-osx-signer.yml
+    ./bin/gverify -v -d ../gitian.sigs.smh/ -r ${VERSION}-osx-signed ../songmyungho/contrib/gitian-descriptors/gitian-osx-signer.yml
     mv build/out/songmyungho-osx-signed.dmg ../songmyungho-${VERSION}-osx.dmg
     popd
 
@@ -210,19 +210,19 @@ Create (and optionally verify) the signed Windows binaries:
 
     pushd ./gitian-builder
     ./bin/gbuild -i --commit signature=v${VERSION} ../songmyungho/contrib/gitian-descriptors/gitian-win-signer.yml
-    ./bin/gsign --signer $SIGNER --release ${VERSION}-win-signed --destination ../gitian.sigs.ltc/ ../songmyungho/contrib/gitian-descriptors/gitian-win-signer.yml
-    ./bin/gverify -v -d ../gitian.sigs.ltc/ -r ${VERSION}-win-signed ../songmyungho/contrib/gitian-descriptors/gitian-win-signer.yml
+    ./bin/gsign --signer $SIGNER --release ${VERSION}-win-signed --destination ../gitian.sigs.smh/ ../songmyungho/contrib/gitian-descriptors/gitian-win-signer.yml
+    ./bin/gverify -v -d ../gitian.sigs.smh/ -r ${VERSION}-win-signed ../songmyungho/contrib/gitian-descriptors/gitian-win-signer.yml
     mv build/out/songmyungho-*win64-setup.exe ../songmyungho-${VERSION}-win64-setup.exe
     mv build/out/songmyungho-*win32-setup.exe ../songmyungho-${VERSION}-win32-setup.exe
     popd
 
 Commit your signature for the signed OS X/Windows binaries:
 
-    pushd gitian.sigs.ltc
+    pushd gitian.sigs.smh
     git add ${VERSION}-osx-signed/${SIGNER}
     git add ${VERSION}-win-signed/${SIGNER}
     git commit -a
-    git push  # Assuming you can push to the gitian.sigs.ltc tree
+    git push  # Assuming you can push to the gitian.sigs.smh tree
     popd
 
 ### After 3 or more people have gitian-built and their results match:

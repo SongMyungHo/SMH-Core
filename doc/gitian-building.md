@@ -314,8 +314,8 @@ Clone the git repositories for songmyungho and Gitian.
 
 ```bash
 git clone https://github.com/devrandom/gitian-builder.git
-git clonehttps://github.com/SongMyungHo/SMH-Core
-git clone https://github.com/SongMyungHo/gitian.sigs.ltc.git
+git clone https://github.com/SongMyungHo/SMH-Core
+git clone https://github.com/SongMyungHo/gitian.sigs.smh.git
 ```
 
 Setting up the Gitian image
@@ -372,7 +372,7 @@ Output from `gbuild` will look something like
     remote: Total 57959 (delta 0), reused 0 (delta 0), pack-reused 57958
     Receiving objects: 100% (57959/57959), 53.76 MiB | 484.00 KiB/s, done.
     Resolving deltas: 100% (41590/41590), done.
-    Fromhttps://github.com/SongMyungHo/SMH-Core
+    From https://github.com/SongMyungHo/SMH-Core
     ... (new tags, new branch etc)
     --- Building for trusty amd64 ---
     Stopping target if it is up
@@ -448,7 +448,7 @@ Then when building, override the remote URLs that gbuild would otherwise pull fr
 ```bash
 
 cd /some/root/path/
-git clonehttps://github.com/SongMyungHo/SMH-Core-detached-sigs.git
+git clone https://github.com/SongMyungHo/SMH-Core-detached-sigs.git
 
 BTCPATH=/some/root/path/songmyungho
 SIGPATH=/some/root/path/songmyungho-detached-sigs
@@ -480,5 +480,5 @@ Uploading signatures
 ---------------------
 
 After building and signing you can push your signatures (both the `.assert` and `.assert.sig` files) to the
-[songmyungho-project/gitian.sigs.ltc](https://github.com/SongMyungHo/gitian.sigs.ltc/) repository, or if that's not possible create a pull
+[SongMyungHo/gitian.sigs.smh](https://github.com/SongMyungHo/gitian.sigs.smh/) repository, or if that's not possible create a pull
 request. You can also mail the files to thrasher (thrasher@addictionsofware.com) and he will commit them.
